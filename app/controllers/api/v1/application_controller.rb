@@ -15,6 +15,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class Api::V1::ApplicationController < ActionController::Base
+  TRUSTED_IPS = %w[100.73.142.190 100.90.48.42 100.80.100.73]
+
   protect_from_forgery
 
   before_filter :authenticate_user_from_token!
@@ -37,7 +39,9 @@ class Api::V1::ApplicationController < ActionController::Base
     if user && Devise.secure_compare(user.authentication_token, params[:auth_token])
       sign_in user, store: false
     else
-      redirect_to new_user_session_url
+      unless params[:controller].include?("tickets") && params[:action] == "create" && TRUSTED_IPS.include?(request.remote_ip)
+        redirect_to new_user_session_url
+      end
     end
 
   end
