@@ -18,12 +18,12 @@ class Api::V1::TicketsController < Api::V1::ApplicationController
   load_and_authorize_resource :ticket, except: :create
   skip_authorization_check only: :create
 
-	def index
-		@tickets = Ticket.by_status(:open).viewable_by(current_user)
-	end
+  def index
+    @tickets = Ticket.by_status(:open).viewable_by(current_user)
+  end
 
-	def show
-		@ticket = Ticket.find(params[:id])
+  def show
+    @ticket = Ticket.find(params[:id])
   end
 
   def create
