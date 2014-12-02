@@ -15,13 +15,36 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class Api::V1::TicketsController < Api::V1::ApplicationController
 
-	load_and_authorize_resource :ticket
+  load_and_authorize_resource :ticket, except: :create
+  skip_authorization_check only: :create
 
-	def index
-		@tickets = Ticket.by_status(:open).viewable_by(current_user)
-	end
+  def index
+    @tickets = Ticket.by_status(:open).viewable_by(current_user)
+  end
 
-	def show
-		@ticket = Ticket.find(params[:id])
-	end
+  def show
+    @ticket = Ticket.find(params[:id])
+  end
+
+  def create
+    user = User.find_by_email("a.ladygin@crmtronic.com")
+
+    @ticket = Ticket.new(:from => params[:from], :subject => params[:subject], :content => params[:content],
+                         :content_type => "text", :user => user)
+
+    if @ticket.save
+      Rule.apply_all(@ticket)
+
+      # where user notifications added?
+      if @ticket.notified_users.count == 0
+        @ticket.set_default_notifications!(user)
+      end
+
+      NotificationMailer.new_ticket(@ticket).deliver
+
+      render :json => {:message => "Ticket created successfully"}, :status => 200
+    else
+      render :json => {:ticketErrors => @ticket.errors.full_messages}, :status => 422
+    end
+  end
 end

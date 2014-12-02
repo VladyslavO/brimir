@@ -12,6 +12,7 @@ Brimir::Application.routes.draw do
     post 'add_ticket/add'
     post 'sessions/create'
     post 'tickets/add'
+    post 'tickets/create'
     end
   end
 
