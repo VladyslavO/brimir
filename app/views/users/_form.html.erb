@@ -33,6 +33,10 @@
         <%= f.label :label_ids %>
         <%= f.collection_select :label_ids, @labels, :id, :name, {}, { multiple: true, class: 'select2' } %>
       <% end %>
+
+      <%= f.select :time_zone, @time_zones %>
+
+      <%= f.select :per_page, [10, 20, 30, 50, 75, 100] %>
     </div>
   </div>
   <div class="row">

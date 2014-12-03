@@ -1,17 +1,18 @@
-<div class="row" style="border-bottom: 1px solid #bec8dc">
+<div class="row bb">
   <div class="medium-12 columns">
+    <a class="pull-right mtm" href="#print" onclick="window.print()"><%= fa_icon 'print' %></a>
     <h3 class="mt">
       <%= !@ticket.subject.nil? ? @ticket.subject : '<em>(' + t(:no_subject) + ')</em>'.html_safe %>
     </h3>
     <h5 class="subheader text-secondary mb">
-      <%= t(:ticket_by_at, email: @ticket.user.email, at: l(@ticket.created_at, format: :long)) %>
+      <%= t(:ticket_by_at, email: @ticket.user.email, at: l(@ticket.created_at.in_time_zone(current_user.time_zone), format: :long)) %>
     </h5>
   </div>
 </div>
 
 
 <div class="row collapse">
-  <div class="medium-9 columns" style="border-right: 1px solid #bec8dc">
+  <div class="medium-9 columns br">
     <div class="ma">
       <% if @ticket.content.blank? %>
         (<%= t(:no_content) %>)
@@ -38,7 +39,7 @@
 
       <% if @ticket.attachments.size > 0 %>
         <hr />
-        <ul class="attachments>
+        <ul class="attachments">
           <%= render @ticket.attachments %>
         </ul>
       <% end %>

@@ -67,6 +67,7 @@ en:
   labels: Labels
   label_name: Label name
   notification_sent_to: 'A notification was sent to the following addresses:'
+  no_notifications_sent: 'No notifications have been sent'
 
 # tickets/_change_priority_form
   change: Change
@@ -166,6 +167,8 @@ en:
         signature: Email signature
         remember_me: Remember me
         label_ids: Labels
+        time_zone: Time zone
+        per_page: Tickets per page
 
       ticket:
         from: From email address
@@ -191,4 +194,6 @@ en:
           assign_label: assign label
           notify_user: send notification to
           change_status: change status to
+          change_priority: change priority to
+          assign_user: assign to
         action_value: Parameter for action

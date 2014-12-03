@@ -45,7 +45,8 @@ class TicketsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @tickets = @tickets.page(params[:page])
+        @tickets = @tickets.paginate(page: params[:page],
+            per_page: current_user.per_page)
       end
       format.csv do
         @tickets = @tickets.includes(:status_changes)
@@ -132,7 +133,11 @@ class TicketsController < ApplicationController
         @ticket.set_default_notifications!(user)
       end
 
-      NotificationMailer.new_ticket(@ticket).deliver
+      if @ticket.assignee.nil?
+        NotificationMailer.new_ticket(@ticket).deliver
+      else
+        TicketMailer.notify_assigned(@ticket).deliver
+      end
     end
 
     respond_to do |format|

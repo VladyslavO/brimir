@@ -73,6 +73,7 @@ nl:
   labels: Labels
   label_name: Label naam
   notification_sent_to: 'Een notificatie is verstuurd aan de volgende adressen:'
+  no_notifications_sent: 'Er zijn geen notificaties verzonden'
 
 # tickets/_change_priority_form
   change: Wijzig
@@ -176,6 +177,8 @@ nl:
         signature: E-mailhandtekening
         remember_me: Onthouden
         label_ids: Labels
+        time_zone: Tijdzone
+        per_page: Tickets per pagina
 
       ticket:
         from: Van e-mailadres
@@ -201,4 +204,6 @@ nl:
           assign_label: voeg label toe
           notify_user: stuur notificatie aan
           change_status: wijzig status in
+          change_priority: wijzig prioriteit in
+          assign_user: toewijzen aan
         action_value: Parameter voor actie

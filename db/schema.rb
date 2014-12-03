@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141028155357) do
+ActiveRecord::Schema.define(version: 20141126072053) do
 
   create_table "attachments", force: true do |t|
     t.integer  "attachable_id"
@@ -112,8 +112,8 @@ ActiveRecord::Schema.define(version: 20141028155357) do
   create_table "users", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "email",                  default: "",   null: false
-    t.string   "encrypted_password",     default: "",   null: false
+    t.string   "email",                  default: "",          null: false
+    t.string   "encrypted_password",     default: "",          null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -126,6 +126,8 @@ ActiveRecord::Schema.define(version: 20141028155357) do
     t.text     "signature"
     t.boolean  "notify",                 default: true
     t.string   "authentication_token"
+    t.string   "time_zone",              default: "Amsterdam"
+    t.integer  "per_page",               default: 30,          null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
