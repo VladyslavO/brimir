@@ -19,8 +19,8 @@ test:
   timeout: 5000
 
 production:
-  adapter: postgresql
-  host:
-  database:
-  user:
-  password:
+  adapter: mysql2
+  host: localhost
+  database: helpdesk
+  user: <%= ENV["DB_USER"] %>
+  password: <%= ENV["DB_PASS"] %>
