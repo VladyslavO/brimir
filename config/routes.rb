@@ -26,6 +26,8 @@ Brimir::Application.routes.draw do
 
   resources :labelings, only: [:destroy, :create]
 
+  resources :labels, only: [:update, :destroy]
+
   resources :rules
 
   resources :replies, only: [:create, :new]
