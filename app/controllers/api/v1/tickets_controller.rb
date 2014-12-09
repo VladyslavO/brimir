@@ -27,20 +27,25 @@ class Api::V1::TicketsController < Api::V1::ApplicationController
   end
 
   def create
-    user = User.find_by_email("a.ladygin@crmtronic.com")
-
     @ticket = Ticket.new(:from => params[:from], :subject => params[:subject], :content => params[:content],
-                         :content_type => "text", :user => user)
+                         :content_type => params[:contentType])
+
+    assignee = User.find_by_email("a.ladygin@crmtronic.com")
+    @ticket.assignee = assignee unless assignee.nil?
 
     if @ticket.save
       Rule.apply_all(@ticket)
 
       # where user notifications added?
       if @ticket.notified_users.count == 0
-        @ticket.set_default_notifications!(user)
+        @ticket.set_default_notifications!(@ticket.user)
       end
 
-      NotificationMailer.new_ticket(@ticket).deliver
+      if @ticket.assignee.nil?
+        NotificationMailer.new_ticket(@ticket).deliver
+      else
+        TicketMailer.notify_assigned(@ticket).deliver
+      end
 
       render :json => {:message => "Ticket created successfully"}, :status => 200
     else
